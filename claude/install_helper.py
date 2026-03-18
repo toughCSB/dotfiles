@@ -1,0 +1,62 @@
+"""Claude Code dotfiles install helper"""
+import sys, json, os, shutil
+
+sys.stdout.reconfigure(encoding="utf-8")
+
+DOTFILES = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.abspath(__file__))
+DOTFILES = os.path.normpath(DOTFILES)
+CLAUDE = os.path.normpath(os.path.expanduser("~/.claude"))
+
+# settings.json: 기존 statusLine/hooks 보존하며 병합
+settings_file = os.path.join(CLAUDE, "settings.json")
+dotfiles_settings = os.path.join(DOTFILES, "settings.json")
+
+with open(dotfiles_settings, encoding="utf-8") as f:
+    new = json.load(f)
+
+existing = {}
+if os.path.exists(settings_file):
+    with open(settings_file, encoding="utf-8") as f:
+        existing = json.load(f)
+
+merged = {**new}
+for key in ("statusLine", "hooks"):
+    if key in existing:
+        merged[key] = existing[key]
+
+with open(settings_file, "w", encoding="utf-8") as f:
+    json.dump(merged, f, indent=2, ensure_ascii=False)
+print("OK: settings.json merged (statusLine/hooks preserved)")
+
+# skills 복사
+skills_src = os.path.join(DOTFILES, "skills")
+skills_dst = os.path.join(CLAUDE, "skills")
+if os.path.isdir(skills_src):
+    os.makedirs(skills_dst, exist_ok=True)
+    count = 0
+    for name in os.listdir(skills_src):
+        s = os.path.join(skills_src, name)
+        d = os.path.join(skills_dst, name)
+        if os.path.isdir(s):
+            if os.path.exists(d):
+                shutil.rmtree(d)
+            shutil.copytree(s, d)
+            count += 1
+    print(f"OK: skills/ ({count} skills installed)")
+
+# 자동 동기화 훅 등록 (없는 경우에만)
+with open(settings_file, encoding="utf-8") as f:
+    s = json.load(f)
+
+if "hooks" not in s:
+    s["hooks"] = {
+        "SessionStart": [{"hooks": [{"type": "command",
+            "command": "cd ~/dotfiles && git pull --ff-only 2>/dev/null; bash ~/dotfiles/claude/install.sh 2>/dev/null; echo '[dotfiles] synced'"}]}],
+        "Stop": [{"hooks": [{"type": "command",
+            "command": "bash ~/dotfiles/claude/sync.sh 2>/dev/null && cd ~/dotfiles && (git diff --quiet && git diff --cached --quiet) || (git add -A && git commit -m 'auto sync' && git push)"}]}]
+    }
+    with open(settings_file, "w", encoding="utf-8") as f:
+        json.dump(s, f, indent=2, ensure_ascii=False)
+    print("OK: auto-sync hooks registered")
+else:
+    print("INFO: hooks already exist, skipped")

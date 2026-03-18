@@ -1,37 +1,16 @@
 #!/bin/bash
-# ============================================
 # Claude Code 설정 → dotfiles 동기화
-# 집/회사 PC에서 설정 변경 후 실행: bash sync.sh
-# ============================================
+set -e
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
-CLAUDE_DIR="$HOME/.claude"
 
-echo "🔄 ~/.claude → dotfiles 동기화 중..."
+echo "Syncing ~/.claude -> dotfiles..."
 
-cp "$CLAUDE_DIR/CLAUDE.md" "$DOTFILES_DIR/CLAUDE.md"
-echo "✅ CLAUDE.md"
+cp "$HOME/.claude/CLAUDE.md" "$DOTFILES_DIR/CLAUDE.md" && echo "OK: CLAUDE.md"
+cp "$HOME/.claude/claude-dashboard.local.json" "$DOTFILES_DIR/claude-dashboard.local.json" && echo "OK: claude-dashboard.local.json"
 
-cp "$CLAUDE_DIR/claude-dashboard.local.json" "$DOTFILES_DIR/claude-dashboard.local.json"
-echo "✅ claude-dashboard.local.json"
-
-# settings.json: statusLine 제거 후 저장 (머신별 경로 제외)
-python3 -c "
-import json
-with open('$CLAUDE_DIR/settings.json') as f:
-    s = json.load(f)
-s.pop('statusLine', None)  # 머신별 경로 제거
-with open('$DOTFILES_DIR/settings.json', 'w') as f:
-    json.dump(s, f, indent=2, ensure_ascii=False)
-print('✅ settings.json (statusLine 제외)')
-"
-
-# skills 디렉토리 동기화 (플러그인 캐시 제외, 독립 스킬만)
-mkdir -p "$DOTFILES_DIR/skills"
-rsync -a --delete "$CLAUDE_DIR/skills/" "$DOTFILES_DIR/skills/" 2>/dev/null \
-  || cp -r "$CLAUDE_DIR/skills/." "$DOTFILES_DIR/skills/"
-echo "✅ skills/ 디렉토리"
+python3 "$DOTFILES_DIR/sync_helper.py" "$DOTFILES_DIR"
 
 echo ""
-echo "✅ 동기화 완료! 이제 git commit & push 하세요:"
+echo "Done. Now run:"
 echo "  cd ~/dotfiles && git add -A && git commit -m 'sync claude settings' && git push"
