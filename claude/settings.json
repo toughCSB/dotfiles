@@ -1,0 +1,22 @@
+{
+  "enabledPlugins": {
+    "bkit@bkit-marketplace": true,
+    "skillless": true,
+    "claude-dashboard@claude-dashboard": true,
+    "frontend-design@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-dashboard": {
+      "source": {
+        "source": "github",
+        "repo": "uppinote20/claude-dashboard"
+      }
+    }
+  },
+  "language": "korean",
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true
+}

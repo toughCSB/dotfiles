@@ -1,0 +1,15 @@
+# Claude Code 설치 플러그인 목록
+# 새 PC에서 아래 명령어로 설치:
+# /plugin install bkit
+# /plugin install claude-dashboard
+# /plugin install frontend-design
+# /plugin install superpowers
+# /plugin install code-review
+# /plugin install playwright
+
+bkit@bkit-marketplace
+claude-dashboard@claude-dashboard
+frontend-design@claude-plugins-official
+superpowers@claude-plugins-official
+code-review@claude-plugins-official
+playwright@claude-plugins-official

@@ -1,0 +1,11 @@
+{
+  "language": "auto",
+  "plan": "pro",
+  "displayMode": "detailed",
+  "theme": "default",
+  "separator": "pipe",
+  "disabledWidgets": ["codexUsage"],
+  "cache": {
+    "ttlSeconds": 300
+  }
+}

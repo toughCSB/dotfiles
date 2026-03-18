@@ -1,0 +1,6 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# 로컬 전용 (동기화 제외)
+claude/settings.local.json
