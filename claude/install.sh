@@ -47,6 +47,14 @@ else
   echo "✅ settings.json 복사 완료"
 fi
 
+# skills 디렉토리 복사
+if [ -d "$DOTFILES_DIR/skills" ]; then
+  mkdir -p "$CLAUDE_DIR/skills"
+  rsync -a "$DOTFILES_DIR/skills/" "$CLAUDE_DIR/skills/" 2>/dev/null \
+    || cp -r "$DOTFILES_DIR/skills/." "$CLAUDE_DIR/skills/"
+  echo "✅ skills/ 복사 완료"
+fi
+
 echo ""
 echo "🎉 설치 완료!"
 echo ""

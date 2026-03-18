@@ -26,6 +26,12 @@ with open('$DOTFILES_DIR/settings.json', 'w') as f:
 print('✅ settings.json (statusLine 제외)')
 "
 
+# skills 디렉토리 동기화 (플러그인 캐시 제외, 독립 스킬만)
+mkdir -p "$DOTFILES_DIR/skills"
+rsync -a --delete "$CLAUDE_DIR/skills/" "$DOTFILES_DIR/skills/" 2>/dev/null \
+  || cp -r "$CLAUDE_DIR/skills/." "$DOTFILES_DIR/skills/"
+echo "✅ skills/ 디렉토리"
+
 echo ""
 echo "✅ 동기화 완료! 이제 git commit & push 하세요:"
 echo "  cd ~/dotfiles && git add -A && git commit -m 'sync claude settings' && git push"
