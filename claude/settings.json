@@ -16,7 +16,6 @@
     "supabase@claude-plugins-official": true,
     "vercel@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
-    "autofix-bot@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
