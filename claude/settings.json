@@ -16,7 +16,8 @@
     "supabase@claude-plugins-official": true,
     "vercel@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
-    "chrome-devtools-mcp@claude-plugins-official": true
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "bkit-starter@bkit-marketplace": true
   },
   "extraKnownMarketplaces": {
     "claude-dashboard": {
