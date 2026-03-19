@@ -4,12 +4,17 @@
 
 # 0.1 📸 스크린샷 규칙 (ALWAYS APPLY — 예외 없음)
 사용자가 "스크린샷 확인해봐", "화면 봐줘", "이거 봐" 등 화면 확인을 요청하면:
-**`D:\Pictures\Screenshots` 폴더의 가장 최근 파일을 자동으로 읽는다.**
+**OS를 자동 감지하여 해당 스크린샷 폴더의 가장 최근 파일을 자동으로 읽는다.**
+
+OS별 경로:
+- **macOS**: `/Volumes/Data_Storage/Downloads/Screenshot`
+- **Windows**: `D:\Pictures\Screenshots`
 
 절차:
-1. `Bash`: `ls -t "D:/Pictures/Screenshots" | head -1` 로 최신 파일명 확인
-2. `Read`: 해당 파일을 직접 열어서 분석
-3. 별도 경로를 지정하지 않은 경우 항상 이 폴더 기준으로 동작
+1. `Bash`: `uname` 으로 OS 감지 → `Darwin`이면 macOS, 그 외는 Windows
+2. `Bash`: 해당 OS 경로에서 `ls -t | head -1` 로 최신 파일명 확인
+3. `Read`: 해당 파일을 직접 열어서 분석
+4. 별도 경로를 지정하지 않은 경우 항상 이 규칙 기준으로 동작
 
 # 1. 🇰🇷 언어 정책 (HIGHEST PRIORITY — 모든 지침에 우선)
 **모든 출력은 반드시 한국어로 작성한다.**
