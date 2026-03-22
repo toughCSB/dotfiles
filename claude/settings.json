@@ -17,13 +17,20 @@
     "vercel@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
-    "bkit-starter@bkit-marketplace": true
+    "bkit-starter@bkit-marketplace": true,
+    "obsidian@obsidian-skills": true
   },
   "extraKnownMarketplaces": {
     "claude-dashboard": {
       "source": {
         "source": "github",
         "repo": "uppinote20/claude-dashboard"
+      }
+    },
+    "obsidian-skills": {
+      "source": {
+        "source": "github",
+        "repo": "kepano/obsidian-skills"
       }
     }
   },
