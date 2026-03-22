@@ -44,6 +44,19 @@ if os.path.isdir(skills_src):
             count += 1
     print(f"OK: skills/ ({count} skills installed)")
 
+# templates 복원
+templates_src = os.path.join(DOTFILES, "templates")
+templates_dst = os.path.join(CLAUDE, "templates")
+if os.path.isdir(templates_src):
+    os.makedirs(templates_dst, exist_ok=True)
+    count = 0
+    for name in os.listdir(templates_src):
+        s = os.path.join(templates_src, name)
+        d = os.path.join(templates_dst, name)
+        shutil.copy2(s, d)
+        count += 1
+    print(f"OK: templates/ ({count} templates installed)")
+
 # 자동 동기화 훅 등록 (없는 경우에만)
 with open(settings_file, encoding="utf-8") as f:
     s = json.load(f)

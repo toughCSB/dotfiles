@@ -45,3 +45,12 @@ for name in src_names:
         count += 1
 
 print(f"OK: skills/ ({count} skills synced)")
+
+# templates 동기화
+templates_src = os.path.join(CLAUDE, "templates")
+templates_dst = os.path.join(DOTFILES, "templates")
+if os.path.isdir(templates_src):
+    if os.path.exists(templates_dst):
+        shutil.rmtree(templates_dst)
+    shutil.copytree(templates_src, templates_dst)
+    print(f"OK: templates/ ({len(os.listdir(templates_dst))} templates synced)")
