@@ -2,7 +2,7 @@
 name: dotfiles-sync
 description: Claude Code 설정을 GitHub dotfiles와 수동 동기화
 user_invocable: true
-invocation: dotfiles-sync
+invocation: sync
 ---
 
 # Dotfiles Sync
