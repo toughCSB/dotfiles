@@ -57,6 +57,24 @@ if os.path.isdir(templates_src):
         count += 1
     print(f"OK: templates/ ({count} templates installed)")
 
+# commands 복원
+commands_src = os.path.join(DOTFILES, "commands")
+commands_dst = os.path.join(CLAUDE, "commands")
+if os.path.isdir(commands_src):
+    if os.path.exists(commands_dst):
+        shutil.rmtree(commands_dst)
+    shutil.copytree(commands_src, commands_dst)
+    print(f"OK: commands/ ({len(os.listdir(commands_dst))} commands installed)")
+
+# agents 복원
+agents_src = os.path.join(DOTFILES, "agents")
+agents_dst = os.path.join(CLAUDE, "agents")
+if os.path.isdir(agents_src):
+    if os.path.exists(agents_dst):
+        shutil.rmtree(agents_dst)
+    shutil.copytree(agents_src, agents_dst)
+    print(f"OK: agents/ ({len(os.listdir(agents_dst))} agents installed)")
+
 # 자동 동기화 훅 등록 (없는 경우에만)
 with open(settings_file, encoding="utf-8") as f:
     s = json.load(f)

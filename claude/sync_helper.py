@@ -54,3 +54,21 @@ if os.path.isdir(templates_src):
         shutil.rmtree(templates_dst)
     shutil.copytree(templates_src, templates_dst)
     print(f"OK: templates/ ({len(os.listdir(templates_dst))} templates synced)")
+
+# commands 동기화
+commands_src = os.path.join(CLAUDE, "commands")
+commands_dst = os.path.join(DOTFILES, "commands")
+if os.path.isdir(commands_src):
+    if os.path.exists(commands_dst):
+        shutil.rmtree(commands_dst)
+    shutil.copytree(commands_src, commands_dst)
+    print(f"OK: commands/ ({len(os.listdir(commands_dst))} commands synced)")
+
+# agents 동기화
+agents_src = os.path.join(CLAUDE, "agents")
+agents_dst = os.path.join(DOTFILES, "agents")
+if os.path.isdir(agents_src):
+    if os.path.exists(agents_dst):
+        shutil.rmtree(agents_dst)
+    shutil.copytree(agents_src, agents_dst)
+    print(f"OK: agents/ ({len(os.listdir(agents_dst))} agents synced)")
