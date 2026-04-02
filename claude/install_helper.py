@@ -38,7 +38,9 @@ if os.path.isdir(skills_src):
         s = os.path.join(skills_src, name)
         d = os.path.join(skills_dst, name)
         if os.path.isdir(s):
-            if os.path.exists(d):
+            if os.path.islink(d):
+                os.unlink(d)
+            elif os.path.exists(d):
                 shutil.rmtree(d)
             shutil.copytree(s, d)
             count += 1
@@ -61,7 +63,9 @@ if os.path.isdir(templates_src):
 commands_src = os.path.join(DOTFILES, "commands")
 commands_dst = os.path.join(CLAUDE, "commands")
 if os.path.isdir(commands_src):
-    if os.path.exists(commands_dst):
+    if os.path.islink(commands_dst):
+        os.unlink(commands_dst)
+    elif os.path.exists(commands_dst):
         shutil.rmtree(commands_dst)
     shutil.copytree(commands_src, commands_dst)
     print(f"OK: commands/ ({len(os.listdir(commands_dst))} commands installed)")
@@ -70,7 +74,9 @@ if os.path.isdir(commands_src):
 agents_src = os.path.join(DOTFILES, "agents")
 agents_dst = os.path.join(CLAUDE, "agents")
 if os.path.isdir(agents_src):
-    if os.path.exists(agents_dst):
+    if os.path.islink(agents_dst):
+        os.unlink(agents_dst)
+    elif os.path.exists(agents_dst):
         shutil.rmtree(agents_dst)
     shutil.copytree(agents_src, agents_dst)
     print(f"OK: agents/ ({len(os.listdir(agents_dst))} agents installed)")
