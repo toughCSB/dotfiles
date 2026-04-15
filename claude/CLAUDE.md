@@ -138,6 +138,13 @@ build:      # 감지된 빌드 도구 기반으로 채운다
 - 작업에 관련 스킬이 있으면 적극적으로 검색하고 활용한다.
 - 스킬 지침이 이 CLAUDE.md의 핵심 원칙과 충돌하면 CLAUDE.md가 우선한다.
 
+## gstack
+
+웹 브라우징은 항상 `/browse` 스킬(gstack)을 사용한다. `mcp__claude-in-chrome__*` 툴은 사용하지 않는다.
+
+사용 가능한 gstack 스킬:
+`/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/retro`, `/investigate`, `/document-release`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
+
 ## Safety
 - 비밀값, 토큰, 인증정보를 코드/로그/출력에 노출하지 않는다.
 - 파괴적 명령과 되돌리기 어려운 변경은 더 엄격하게 다룬다.
