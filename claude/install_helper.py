@@ -41,7 +41,7 @@ if os.path.isdir(skills_src):
             if os.path.islink(d):
                 os.unlink(d)
             elif os.path.exists(d):
-                shutil.rmtree(d)
+                shutil.rmtree(d, onerror=rm_readonly)
             shutil.copytree(s, d)
             count += 1
     print(f"OK: skills/ ({count} skills installed)")
