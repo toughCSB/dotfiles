@@ -1,11 +1,21 @@
 """Claude Code dotfiles sync helper"""
-import sys, json, os, shutil
+import sys, json, os, shutil, stat
 
 sys.stdout.reconfigure(encoding="utf-8")
 
 DOTFILES = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.abspath(__file__))
 DOTFILES = os.path.normpath(DOTFILES)
 CLAUDE = os.path.normpath(os.path.expanduser("~/.claude"))
+
+def _rm_readonly(func, path, _):
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
+
+def _rmtree(path):
+    if sys.version_info >= (3, 12):
+        shutil.rmtree(path, onexc=_rm_readonly)
+    else:
+        shutil.rmtree(path, onerror=_rm_readonly)
 
 # settings.json: statusLine/hooks 제거 후 저장
 src = os.path.join(CLAUDE, "settings.json")
@@ -40,7 +50,7 @@ for name in src_names:
     d = os.path.join(skills_dst, name)
     if os.path.isdir(s):
         if os.path.exists(d):
-            shutil.rmtree(d)
+            _rmtree(d)
         shutil.copytree(s, d)
         count += 1
 
@@ -51,7 +61,7 @@ templates_src = os.path.join(CLAUDE, "templates")
 templates_dst = os.path.join(DOTFILES, "templates")
 if os.path.isdir(templates_src):
     if os.path.exists(templates_dst):
-        shutil.rmtree(templates_dst)
+        _rmtree(templates_dst)
     shutil.copytree(templates_src, templates_dst)
     print(f"OK: templates/ ({len(os.listdir(templates_dst))} templates synced)")
 
@@ -60,7 +70,7 @@ commands_src = os.path.join(CLAUDE, "commands")
 commands_dst = os.path.join(DOTFILES, "commands")
 if os.path.isdir(commands_src):
     if os.path.exists(commands_dst):
-        shutil.rmtree(commands_dst)
+        _rmtree(commands_dst)
     shutil.copytree(commands_src, commands_dst)
     print(f"OK: commands/ ({len(os.listdir(commands_dst))} commands synced)")
 
@@ -69,6 +79,6 @@ agents_src = os.path.join(CLAUDE, "agents")
 agents_dst = os.path.join(DOTFILES, "agents")
 if os.path.isdir(agents_src):
     if os.path.exists(agents_dst):
-        shutil.rmtree(agents_dst)
+        _rmtree(agents_dst)
     shutil.copytree(agents_src, agents_dst)
     print(f"OK: agents/ ({len(os.listdir(agents_dst))} agents synced)")

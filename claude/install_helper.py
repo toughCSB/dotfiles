@@ -1,11 +1,21 @@
 """Claude Code dotfiles install helper"""
-import sys, json, os, shutil
+import sys, json, os, shutil, stat
 
 sys.stdout.reconfigure(encoding="utf-8")
 
 DOTFILES = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.abspath(__file__))
 DOTFILES = os.path.normpath(DOTFILES)
 CLAUDE = os.path.normpath(os.path.expanduser("~/.claude"))
+
+def _rm_readonly(func, path, _):
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
+
+def _rmtree(path):
+    if sys.version_info >= (3, 12):
+        shutil.rmtree(path, onexc=_rm_readonly)
+    else:
+        shutil.rmtree(path, onerror=_rm_readonly)
 
 # settings.json: 기존 statusLine/hooks 보존하며 병합
 settings_file = os.path.join(CLAUDE, "settings.json")
@@ -41,7 +51,7 @@ if os.path.isdir(skills_src):
             if os.path.islink(d):
                 os.unlink(d)
             elif os.path.exists(d):
-                shutil.rmtree(d)
+                _rmtree(d)
             shutil.copytree(s, d)
             count += 1
     print(f"OK: skills/ ({count} skills installed)")
@@ -66,7 +76,7 @@ if os.path.isdir(commands_src):
     if os.path.islink(commands_dst):
         os.unlink(commands_dst)
     elif os.path.exists(commands_dst):
-        shutil.rmtree(commands_dst)
+        _rmtree(commands_dst)
     shutil.copytree(commands_src, commands_dst)
     print(f"OK: commands/ ({len(os.listdir(commands_dst))} commands installed)")
 
@@ -77,7 +87,7 @@ if os.path.isdir(agents_src):
     if os.path.islink(agents_dst):
         os.unlink(agents_dst)
     elif os.path.exists(agents_dst):
-        shutil.rmtree(agents_dst)
+        _rmtree(agents_dst)
     shutil.copytree(agents_src, agents_dst)
     print(f"OK: agents/ ({len(os.listdir(agents_dst))} agents installed)")
 
